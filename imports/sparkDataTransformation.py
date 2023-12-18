@@ -72,8 +72,7 @@ class DataTransformation:
                     " ) as abstarct_score,"
                     " CONTAINS(COMPLETE_SPECIFICATION, ") + containsKeywords + (
                     " ) as comSpec_score FROM patent_details )subquery "
-                    "WHERE (title_score > 0 or abstarct_score > 0 or comSpec_score > 0) and FIELD_OF_INVENTION IN (") + fieldOfInvention + (
-                    ") "
+                    "WHERE (title_score > 0 or abstarct_score > 0 or comSpec_score > 0) "
                     "ORDER BY title_score DESC,abstarct_score DESC,comSpec_score DESC FETCH FIRST 10 ROWS ONLY")
         print(query)
 
@@ -90,6 +89,7 @@ class DataTransformation:
             self.csvFilePath)
         # userQueryDf.show()
 
+        df.select("INVENTION_TITLE", "ABSTRACT_OF_INVENTION", "COMPLETE_SPECIFICATION").show()
         sa.performSemanticSearch(df, userQueryDf)
         print("main data frame is")
         df.select("INVENTION_TITLE", "ABSTRACT_OF_INVENTION", "COMPLETE_SPECIFICATION").show()
